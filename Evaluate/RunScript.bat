@@ -1,2 +1,16 @@
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 1 --samplingNum 300
 Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 2 --samplingNum 300
-
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 3 --samplingNum 300
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 4 --samplingNum 300
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 1 --samplingNum 236
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 2 --samplingNum 236
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 3 --samplingNum 236
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 4 --samplingNum 236
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 1 --samplingNum 97
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 2 --samplingNum 97
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 3 --samplingNum 97
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 4 --samplingNum 97
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 1 --samplingNum 42
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 2 --samplingNum 42
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 3 --samplingNum 42
+Rscript Evaluate_map_new4_OptimizeFillterIncorrectout.R --modeMethod 4 --samplingNum 42

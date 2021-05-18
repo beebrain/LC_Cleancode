@@ -5,7 +5,7 @@ library(ggplot2)
 
 
 Evaluate_path = "./"
-index_sampling = c(42,97,236,300)
+index_sampling = c(300,236,97,42)
 method_array  = c("Openmax","eak","pow3Ak","Prob_Of_Softmax")
 evaluate_AUC =   data.frame(matrix(ncol = 5, nrow = 0))
 epsion = 1e-4

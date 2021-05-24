@@ -34,7 +34,7 @@ calcutFscore_index = function(dataset,Evaluate_path,method,samplingNumber){
 
 
 
-Evaluate_path = "F:/MyOpenMax/Evaluate/TPami_Evaluate/"
+Evaluate_path = "./"
 index_sampling = c(42,97,236,300)
 method_array  = c("Prob_Of_Softmax","Openmax","eak","pow3Ak")
 evaluate_AUC =   data.frame(matrix(ncol = 5, nrow = 0))
@@ -60,9 +60,9 @@ for (method in method_array){
       data_FScore = data_FScore[2:1003]
       #data_Presision = data_Presision[2:1003]
       #data_Recall = data_Recall[2:1003]
-      Fmax_data = calcutFscore_index(data_FScore,Evaluate_path,method,samplingNumber)
+      Fmax_data = calcutFscore_index(data_FScore,paste(Evaluate_path,toString(rep),sep=""),method,samplingNumber)
       data_Fmax = rbind(data_Fmax,Fmax_data)
       colnames(data_Fmax) = c("F1","F1MaxcutIndex","F2","F2MaxcutIndex")
     }
-  write.csv(data_Fmax,paste(Evaluate_path,"_Fscore_Correct_Average_",method,".csv",sep = ""))
+  write.csv(data_Fmax,paste(Evaluate_path,toString(rep),"_Fscore_Correct_Average_",method,".csv",sep = ""))
 }

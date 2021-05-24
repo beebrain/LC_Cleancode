@@ -40,7 +40,7 @@ plotformat = function(dataframtoplot,title_name="",xlabel="",ylabel=""){
 
 
 
-Evaluate_path = "I:/MyOpenMax/Evaluate/TPami_Evaluate/"
+Evaluate_path = "./"
 index_sampling = c(42,97,236,300)
 rep = "98"
 

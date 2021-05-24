@@ -3,6 +3,8 @@ library(data.table)
 library(xlsx)
 library(ggplot2)
 
+gc()
+memory.limit(9999999999)
 
 Evaluate_path = "./"
 index_sampling = c(300,236,97,42)
@@ -58,7 +60,7 @@ for (method in method_array){
     data_recall_All = cbind(data_recall_S,data_recall_U)
     Fscore = 2*(data_presision_All*data_recall_All)/(data_presision_All+data_recall_All+epsion)
     
-    
+    gc()
     
     path_write = paste(Evaluate_path,toString(rep),"/",samplingNumber,"_Fscore_Correct_",method,".csv",sep = "")
     path_write_Presision = paste(Evaluate_path,toString(rep),"/",samplingNumber,"_Presision_Correct_",method,".csv",sep = "")
@@ -72,7 +74,7 @@ for (method in method_array){
     
     Fscore = cbind(cutoffIndex,Fscore)
     write.csv(Fscore,path_write)
-
+    
   }
   }
 #}

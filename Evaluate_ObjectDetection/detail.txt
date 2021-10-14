@@ -1,0 +1,65 @@
+->Detail of Object detection 
+Model -> Faster R-CNN with Resnet50 V1 Object detection model, 
+		trained on COCO 2017 dataset with trainning images scaled to 640x640.
+
+
+
+->Script for get detection results.
+
+import tensorflow as tf
+import tensorflow_hub as hub
+hub_model = hub.load("...Model File...")
+results = hub_model("...Image File....")
+
+The script run on Tensorflow-gpu 2.6 with Cuda version 11.
+
+->Dataset
+Coco dataset has 80 classes and scaled down to 20 classes for this experiment.
+
+Closet
+	20 classes of coco are selected map to imagesnet dataset ID.
+	cat,n02124075(Egyptian cat)
+	dog,n02109047(Great Dane)
+	elephant,n02504458(African elephant)
+	horse,n02389026(sorrel)
+	person,n10565667(scuba diver)
+	cow,n02403003(ox)
+	umbrella,n04507155(umbrella)
+	laptop,n03642806(laptop computer)
+	airplane,n02690373(airliner)
+	boat,n04273569(speedboat)
+	bicycle,n03792782(mountain bike)
+	motorcycle,n03791053(scooter)
+	train,n03272562(electric locomotive)
+	car,n02930766(taxicab)
+	truck,n04467665(trailer truck)
+	bench,n03891251(park bench)
+	orange,n07747607(orange)
+	banana,n07753592(banana)
+	mouse,n03793489(computer mouse)
+	remote,n04074963(remote control)
+	
+Openset 
+	n04421872 thermometer
+	n04411264 tent
+	n04373894 sword
+	n04464615 trackball
+	n04496726  tumble drier
+	n04498389 turban
+	n04525584 Venetian blind
+	n07714448 bok choi
+	n07721195 pimento
+	n07766173 lychee
+	n07769584 quince
+	n13136316 bean
+	n04003241 Primus stove
+	n03982232 pool ball
+	n03978966 sport shirt
+	n03854815 pipework
+	n03852688 optical telescope
+	n03816136 needle
+	n03492922 hard hat
+	n03483823 hand calculator
+
+	
+

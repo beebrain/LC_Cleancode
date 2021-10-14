@@ -1,0 +1,117 @@
+rm(list=ls())  
+library(data.table)
+library(xlsx)
+library(ggplot2)
+library(tidyr)
+library(cowplot)
+## change method_select folder before run method_select would be<ALL,Correct>
+method_select = "Correct"
+
+rep = paste("98_",method_select,sep = "")
+rep = 98
+eak_Presision <- read.csv(paste("./",rep,"/300_Presision_Binary_eak.csv",sep = ""),header = TRUE)
+openMax_Presision <- read.csv(paste("./",rep,"/300_Presision_Binary_Openmax.csv",sep = ""),header = TRUE)
+pow3Ak_Presision <- read.csv(paste("./",rep,"/300_Presision_Binary_pow3Ak.csv",sep = ""),header = TRUE)
+obj_Presision <- read.csv(paste("./",rep,"/300_Presision_Binary_obj.csv",sep = ""),header = TRUE)
+
+eak_Recall <- read.csv(paste("./",rep,"/300_Recall_Binary_eak.csv",sep = ""),header = TRUE)
+openMax_Recall <- read.csv(paste("./",rep,"/300_Recall_Binary_Openmax.csv",sep = ""),header = TRUE)
+pow3Ak_Recall <- read.csv(paste("./",rep,"/300_Recall_Binary_pow3Ak.csv",sep = ""),header = TRUE)
+obj_Recall <- read.csv(paste("./",rep,"/300_Recall_Binary_obj.csv",sep = ""),header = TRUE)
+
+
+calculateAUC = function(dataset){
+  
+  ########### Calculate Area Under curve  Reshape ###################
+  Pesision.data = dataset$Precision
+  RecallData = dataset$Recall
+  RecallIndex_order = order(RecallData)
+  
+  Recall.sort = RecallData[RecallIndex_order]
+  
+  Rdelta = c(0,Recall.sort[-length(Recall.sort)])
+  Recall.delta = Recall.sort - Rdelta
+  
+  PRProduct = Pesision.data[RecallIndex_order] * Recall.delta
+  undercurve_Reshape = sum(PRProduct)
+  undercurve_Reshape
+  return (undercurve_Reshape)
+  ########### End Calculate Area Under curve  Reshape ###################
+  
+}
+
+DataGroup = data.frame()
+
+eak_PR = eak_Presision
+eak_PR$Recall = eak_Recall$data_recall_All
+eak_PR$type = "LC : Exp"
+names(eak_PR) = c("index","cutoff","Precision","Recall","type")
+DataGroup = rbind(DataGroup,eak_PR[,2:5])
+
+openMax_PR = openMax_Presision
+openMax_PR$Recall = openMax_Recall$data_recall_All
+openMax_PR$type = "OpenMax"
+names(openMax_PR) = c("index","cutoff","Precision","Recall","type")
+DataGroup = rbind(DataGroup,openMax_PR[,2:5])
+
+pow3Ak_PR = pow3Ak_Presision
+pow3Ak_PR$Recall = pow3Ak_Recall$data_recall_All
+pow3Ak_PR$type = "LC : Cubic"
+names(pow3Ak_PR) = c("index","cutoff","Precision","Recall","type")
+DataGroup = rbind(DataGroup,pow3Ak_PR[,2:5])
+
+
+obj_PR = obj_Presision
+obj_PR$Recall = obj_Recall$data_recall_All
+obj_PR$type = "Object Detection"
+names(obj_PR) = c("index","cutoff","Precision","Recall","type")
+DataGroup = rbind(DataGroup,obj_PR[,2:5])
+
+
+eak_AUC = calculateAUC(eak_PR)
+print(eak_AUC)
+OpenMax_AUC = calculateAUC(openMax_PR)
+print(OpenMax_AUC)
+pow3AK_AUC = calculateAUC(pow3Ak_PR)
+print(pow3AK_AUC)
+obj_AUC = calculateAUC(obj_PR)
+print(obj_AUC)
+
+############ plot Dataset Closeset VS Openset ALL data ###############
+data_AUC = data.frame(x = 0.7, y = 0.6,type="OpenMax" ,label = sprintf(" OpenMax = %0.3f\n LC : Exp = %0.3f\n LC : Cubic = %0.3f \n ObjDetection = %0.3f" ,
+                             OpenMax_AUC,eak_AUC,pow3AK_AUC,obj_AUC))
+DataGroup$type <- factor(DataGroup$type, levels=c("OpenMax", "LC : Exp", "LC : Cubic","Object Detection"))
+p <- ggplot(DataGroup, aes(x=Recall, y=Precision, group=type))+
+  geom_line(aes(linetype=type, color=type),size=1)+
+  theme(plot.title = element_text(hjust = 0.5),
+        text = element_text(size=32),
+        axis.text=element_text(size=24),
+        #axis.text = element_blank(), 
+        axis.ticks.length = unit(0, "mm"),
+        
+        legend.text=element_text(size=26),
+        legend.title=element_blank(),
+        legend.position = c(0.40, 0.1),
+        legend.justification = c(0,0),
+        legend.background = element_rect(fill=alpha('white', 0.0))
+  )+labs(title = "P-R curve" ,x = "Recall",y="Precision",fill="type")+
+  scale_linetype_manual(values=c( "twodash","solid","dotted","dashed"))
+  #geom_text(data = data_AUC, aes(x = x, y = y, label = label),hjust=0)
+p
+# p
+
+savePath = paste("AUC_PR_curve_",method_select,".png",sep = "")
+savePath_eps = paste("AUC_PR_curve_",method_select,".eps",sep = "")
+save_plot(savePath, p, base_asp = 1,base_height = 7)
+save_plot(savePath_eps, p, base_asp = 1,base_height = 7)
+
+
+
+################## debug why object give more weird graph
+Obj_Data_CloseSet <- read.csv("../ResultObjectMap/Obj_resultCloseset_fill20Class.txt",header = TRUE) 
+Obj_Data_HackImage_raw <- read.csv("../ResultObjectMap/Obj_resultOpenset_fill20Class.txt",header = TRUE)
+
+All_data_LC  = data.frame()
+All_data_LC = rbind(Obj_Data_CloseSet,Obj_Data_HackImage_raw)
+pp = ggplot(data=All_data_LC,aes(x=Prob_Of_Obj)) + geom_histogram(bins=20)
+pp
